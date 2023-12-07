@@ -1,0 +1,668 @@
+<%- include('./parts/head.ejs') %>
+<%- include('./parts/navbar.ejs') %>
+
+<div class="container mt-3 ">
+    <a type="button"  data-bs-toggle="modal" data-bs-target="#modal-create-debtor" class="bg-dark" id="add-debtor">
+        <svg xmlns="http://www.w3.org/2000/svg" height=".6em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/></svg>
+    </a>
+    <div class="modal fade" id="modal-create-debtor" tabindex="-1" aria-labelledby="modal-create-debto" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">
+                <svg style="fill: white;" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM504 312V248H440c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V136c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H552v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
+                إضافة مدين
+            </h1>
+              <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="">
+                <div class="mb-3">
+                  <label for="" class="form-label fs-small fw-bold">الأسم</label>
+                  <input type="text" class="form-control form-control-sm" required name="name" id="name" aria-describedby="helpId" placeholder="">
+                </div>
+                <div class="mb-3">
+                    <label for="" class="form-label fs-small fw-bold">الأيميل</label>
+                    <input type="text" class="form-control form-control-sm" required name="email" id="email" aria-describedby="helpId" placeholder="">
+                  </div>
+                <div class="mb-3">
+                    <label for="" class="form-label fs-small fw-bold">رقم الجوال</label>
+                    <input type="text" class="form-control form-control-sm" required name="phone" id="phone" aria-describedby="helpId" placeholder="">
+                </div>
+                <div class="mb-3">
+                    <label for="" class="form-label fs-small fw-bold">رقم البطاقة او الجواز</label>
+                    <input type="text" class="form-control form-control-sm" required name="personId" id="personId" aria-describedby="helpId" placeholder="">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer" style="justify-content: flex-start;">
+                <button type="button" id="addDebtor" class="btn btn-dark btn-sm">حفظ</button>
+                <button type="button" class="btn btn-secondary  btn-sm" data-bs-dismiss="modal">الغاء</button>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="row g-3">
+        <div class="col-md-3 col-lg-3 col-sm-12 col-12">
+            <div class="bg-white p-2" style="overflow-y: auto;">
+                <div class="wrapper-debtors p-1">
+                    <% debtors.reverse().forEach(element => { %>
+                        <div id="debtor-<%=element.id%>" email="<%=element.email%>" class="debtors-card p-2 shadow-sm" debtorId="<%=element.id %>">
+                            <header class="fs-small fw-bold">
+                                <svg class="svg-debtor" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464H398.7c-8.9-63.3-63.3-112-129-112H178.3c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3z"/></svg>
+                                 <%=element.name %>
+                            </header>
+                            <div>
+                                <a type="button"  data-bs-toggle="modal" data-bs-target="#modal-debtor-edit-<%=element.id %>">
+                                    <svg id="svg-edit" xmlns="http://www.w3.org/2000/svg" height=".80em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z"/></svg>
+                                </a>
+                                <a  type="button"  data-bs-toggle="modal" data-bs-target="#modal-debtor-delete-<%=element.id %>" class="fw-bolder mx-1 delete-btn" debtor-id="<%=element.id %>">
+                                    <svg id="svg-delete" xmlns="http://www.w3.org/2000/svg" height=".80em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+                                </a>
+                                <a type="button"  data-bs-toggle="modal" data-bs-target="#modal-debtor-info-<%=element.id %>"  class="fw-bolder">
+                                    <svg style="fill:#0d6efd" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>                                
+                                </a>
+                            </div>
+                        </div>
+                        <!-- info modal -->
+                        <div class="modal fade" id="modal-debtor-info-<%=element.id %>" tabindex="-1" aria-labelledby="modal-debtor-info-<%=element.id %>" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" >
+                                    <svg style="fill:#0d6efd" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>                                
+                                    تفاصيل المدين
+                                </h1>
+                                  <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>
+                                        <strong>الأسم:</strong>
+                                        <%=element.name %>
+                                    </p>
+                                    <p>
+                                        <strong>الهاتف:</strong>
+                                        <%=element.phone %>
+                                    </p>
+                                    <p>
+                                        <strong>الأيميل:</strong>
+                                        <%=element.email %>
+                                    </p>
+                                    <p>
+                                        <strong>رقم البطاقة او الجواز:</strong>
+                                        <%=element.person_id %>
+                                    </p>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                        <!-- delete modal -->
+                        <div class="modal fade" id="modal-debtor-delete-<%=element.id %>" tabindex="-1" aria-labelledby="modal-debtor-delete-<%=element.id %>" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                    <svg class="svg-warring" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>                                     تحذير
+                                </h1>
+                                  <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <p>
+                                    هل تريد حذف المدين
+                                    <strong>
+                                        <%=element.name  %>
+                                    </strong>
+                                  </p>
+                                </div>
+                                <div class="modal-footer" style="justify-content: flex-start;">
+                                    <button type="button" debtorId="<%=element.id %>" class="btn btn-danger btn-sm deleteDebtor">حذف</button>
+                                    <button type="button" class="btn btn-secondary  btn-sm" data-bs-dismiss="modal">الغاء</button>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                        <!-- edit modal -->
+                        <div class="modal fade" id="modal-debtor-edit-<%=element.id %>" tabindex="-1" aria-labelledby="modal-debtor-edit-<%=element.id %>" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                    <svg class="svg-debtor" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M304 128a80 80 0 1 0 -160 0 80 80 0 1 0 160 0zM96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM49.3 464H398.7c-8.9-63.3-63.3-112-129-112H178.3c-65.7 0-120.1 48.7-129 112zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3z"/></svg>
+                                    تعديل مدين
+                                </h1>
+                                  <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <form action="">
+                                    <div class="mb-3">
+                                      <label for=""  class="form-label fs-small fw-bold">الأسم</label>
+                                      <input type="text" id="edit-name-<%=element.id%>" value="<%=element.name  %>" class="form-control form-control-sm" required name="name" id="name" aria-describedby="helpId" placeholder="">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="" class="form-label fs-small fw-bold">الأيميل</label>
+                                        <input type="text" id="edit-email-<%=element.id %>" value="<%=element.email  %>" class="form-control form-control-sm" required name="email" id="email" aria-describedby="helpId" placeholder="">
+                                      </div>
+                                    <div class="mb-3">
+                                        <label for="" class="form-label fs-small fw-bold">رقم الجوال</label>
+                                        <input type="text" id="edit-phone-<%=element.id%>" value="<%=element.phone  %>" class="form-control form-control-sm" required name="phone" id="phone" aria-describedby="helpId" placeholder="">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="" class="form-label fs-small fw-bold">رقم البطاقة او الجواز</label>
+                                        <input type="text" id="edit-personId-<%=element.id%>" value="<%=element.person_id  %>" class="form-control form-control-sm" required name="personId" id="personId" aria-describedby="helpId" placeholder="">
+                                    </div>
+                                  </form>
+                                </div>
+                                <div class="modal-footer" style="justify-content: flex-start;">
+                                    <button type="button" debtorId="<%=element.id%>"  class="btn editDebtor btn-primary btn-sm">حفظ</button>
+                                    <button type="button" class="btn btn-secondary  btn-sm" data-bs-dismiss="modal">الغاء</button>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9 col-md-9 col-12 col-sm-12">
+            <div class="bg-white debt-col p-2" style="height: 90vh; overflow-y: auto;">
+                
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    const addDebtorBtn = document.getElementById("addDebtor");
+    let name = document.getElementById("name");
+    let email = document.getElementById("email");
+    let phone = document.getElementById("phone");
+    let personId = document.getElementById("personId");
+    let deleteBtns = document.querySelectorAll('.deleteDebtor');
+    let editBtns = document.querySelectorAll(".editDebtor")
+    let debtorCards =  document.querySelectorAll(".debtors-card");
+    let debtCol =document.querySelector(".debt-col");
+
+    // add Debtor
+    addDebtorBtn.addEventListener("click",(event)=>{
+        event.preventDefault();
+        if (name.value == "" || email.value == "" || phone.value == "" || personId == ""){
+            alert('برجاء التأكد من صحه البيانات')
+        }else{
+            fetch("http://localhost:3000/api/v1/debtor",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json",
+                },
+                body:JSON.stringify({
+                    name : name.value,
+                    email : email.value,
+                    phone : phone.value,
+                    personId : personId.value,
+                })
+                }).then((res) => {
+                    if(res.ok){
+                        location.reload();
+                    }
+                }).catch(err=>{
+                    alert("هناك خطأ في الشبكة")
+                })
+        }
+
+    })
+    // delete Debtor
+    deleteBtns.forEach(btn=>{
+        btn.addEventListener("click",(e)=>{
+            e.preventDefault();
+            const id = btn.getAttribute("debtorId");
+            fetch(`http://localhost:3000/api/v1/debtor/${id}`,{method:'DELETE'}).then((res)=>{
+                if(res.status == 204){
+                    location.reload()
+                }else{
+                    alert(res);
+                }
+            }).catch(err=>alert(err))
+            
+        })
+    })
+
+    // edit Debtor
+    editBtns.forEach(btn=>{
+        btn.addEventListener("click",(e)=>{
+            e.preventDefault();
+            const id = btn.getAttribute("debtorId");
+            let name = document.querySelector(`#edit-name-${id}`).value;
+            let email = document.querySelector(`#edit-email-${id}`).value;
+            let phone = document.querySelector(`#edit-phone-${id}`).value;
+            let personId = document.querySelector(`#edit-personId-${id}`).value;
+            fetch("http://localhost:3000/api/v1/debtor",{
+                method:"PUT",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    id,
+                    name,
+                    email,
+                    phone,
+                    personId
+                })
+            }).then(res=>{
+                if(res.ok){
+                    location.reload()
+                }
+            }).catch(err=>{
+                alert(err);
+            })
+
+
+        })
+    })
+
+    function handelClickDebtorCards(debtorId){
+      fetch( `http://localhost:3000/api/v1/debt/${debtorId}`)
+        .then(res=>{
+          if(res.ok){
+            return res.json();
+          }else{
+            alert(res)
+          }
+        }).then(data =>{
+          console.log(data)
+          let template = `
+          <div class="debt-wrapper p-2">
+                    <a type="button" class="bg-success text-white py-1 px-3 rounded"  style="text-decoration: none;" data-bs-toggle="modal" data-bs-target="#modal-create-debt">
+                        <svg style="fill: rgb(255, 255, 255);" xmlns="http://www.w3.org/2000/svg"  height="1em" viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M312 24V34.5c6.4 1.2 12.6 2.7 18.2 4.2c12.8 3.4 20.4 16.6 17 29.4s-16.6 20.4-29.4 17c-10.9-2.9-21.1-4.9-30.2-5c-7.3-.1-14.7 1.7-19.4 4.4c-2.1 1.3-3.1 2.4-3.5 3c-.3 .5-.7 1.2-.7 2.8c0 .3 0 .5 0 .6c.2 .2 .9 1.2 3.3 2.6c5.8 3.5 14.4 6.2 27.4 10.1l.9 .3c11.1 3.3 25.9 7.8 37.9 15.3c13.7 8.6 26.1 22.9 26.4 44.9c.3 22.5-11.4 38.9-26.7 48.5c-6.7 4.1-13.9 7-21.3 8.8V232c0 13.3-10.7 24-24 24s-24-10.7-24-24V220.6c-9.5-2.3-18.2-5.3-25.6-7.8c-2.1-.7-4.1-1.4-6-2c-12.6-4.2-19.4-17.8-15.2-30.4s17.8-19.4 30.4-15.2c2.6 .9 5 1.7 7.3 2.5c13.6 4.6 23.4 7.9 33.9 8.3c8 .3 15.1-1.6 19.2-4.1c1.9-1.2 2.8-2.2 3.2-2.9c.4-.6 .9-1.8 .8-4.1l0-.2c0-1 0-2.1-4-4.6c-5.7-3.6-14.3-6.4-27.1-10.3l-1.9-.6c-10.8-3.2-25-7.5-36.4-14.4c-13.5-8.1-26.5-22-26.6-44.1c-.1-22.9 12.9-38.6 27.7-47.4c6.4-3.8 13.3-6.4 20.2-8.2V24c0-13.3 10.7-24 24-24s24 10.7 24 24zM568.2 336.3c13.1 17.8 9.3 42.8-8.5 55.9L433.1 485.5c-23.4 17.2-51.6 26.5-80.7 26.5H192 32c-17.7 0-32-14.3-32-32V416c0-17.7 14.3-32 32-32H68.8l44.9-36c22.7-18.2 50.9-28 80-28H272h16 64c17.7 0 32 14.3 32 32s-14.3 32-32 32H288 272c-8.8 0-16 7.2-16 16s7.2 16 16 16H392.6l119.7-88.2c17.8-13.1 42.8-9.3 55.9 8.5zM193.6 384l0 0-.9 0c.3 0 .6 0 .9 0z"/></svg>
+                        <strong>
+                          إضافة عملية
+                        </strong>
+                    </a>
+                    <div class="modal fade" id="modal-create-debt" tabindex="-1" aria-labelledby="modal-create-debt" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header bg-success">
+                              <h1 class="modal-title text-white fs-5" id="exampleModalLabel">
+                                <svg style="fill: rgb(255, 255, 255);" xmlns="http://www.w3.org/2000/svg"  height="1em" viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M312 24V34.5c6.4 1.2 12.6 2.7 18.2 4.2c12.8 3.4 20.4 16.6 17 29.4s-16.6 20.4-29.4 17c-10.9-2.9-21.1-4.9-30.2-5c-7.3-.1-14.7 1.7-19.4 4.4c-2.1 1.3-3.1 2.4-3.5 3c-.3 .5-.7 1.2-.7 2.8c0 .3 0 .5 0 .6c.2 .2 .9 1.2 3.3 2.6c5.8 3.5 14.4 6.2 27.4 10.1l.9 .3c11.1 3.3 25.9 7.8 37.9 15.3c13.7 8.6 26.1 22.9 26.4 44.9c.3 22.5-11.4 38.9-26.7 48.5c-6.7 4.1-13.9 7-21.3 8.8V232c0 13.3-10.7 24-24 24s-24-10.7-24-24V220.6c-9.5-2.3-18.2-5.3-25.6-7.8c-2.1-.7-4.1-1.4-6-2c-12.6-4.2-19.4-17.8-15.2-30.4s17.8-19.4 30.4-15.2c2.6 .9 5 1.7 7.3 2.5c13.6 4.6 23.4 7.9 33.9 8.3c8 .3 15.1-1.6 19.2-4.1c1.9-1.2 2.8-2.2 3.2-2.9c.4-.6 .9-1.8 .8-4.1l0-.2c0-1 0-2.1-4-4.6c-5.7-3.6-14.3-6.4-27.1-10.3l-1.9-.6c-10.8-3.2-25-7.5-36.4-14.4c-13.5-8.1-26.5-22-26.6-44.1c-.1-22.9 12.9-38.6 27.7-47.4c6.4-3.8 13.3-6.4 20.2-8.2V24c0-13.3 10.7-24 24-24s24 10.7 24 24zM568.2 336.3c13.1 17.8 9.3 42.8-8.5 55.9L433.1 485.5c-23.4 17.2-51.6 26.5-80.7 26.5H192 32c-17.7 0-32-14.3-32-32V416c0-17.7 14.3-32 32-32H68.8l44.9-36c22.7-18.2 50.9-28 80-28H272h16 64c17.7 0 32 14.3 32 32s-14.3 32-32 32H288 272c-8.8 0-16 7.2-16 16s7.2 16 16 16H392.6l119.7-88.2c17.8-13.1 42.8-9.3 55.9 8.5zM193.6 384l0 0-.9 0c.3 0 .6 0 .9 0z"/></svg>
+                                إضافة عملية
+                            </h1>
+                              <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <form action="">
+                                <div class="mb-3">
+                                  <label for="" class="form-label fs-small fw-bold">الملاحظة</label>
+                                  <textarea required class="form-control" name="debt" id="content" rows="3"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for=""  class="form-label fs-small fw-bold">السعر</label>
+                                    <input type="number" id="price"  class="form-control form-control-sm" required name="name" id="name" aria-describedby="helpId" placeholder="">
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" value="0" type="radio" name="type" id="type-2" checked>
+                                    <label class="form-check-label fs-small fw-bold" for="type-2">
+                                      1) دين
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" value="1" type="radio" name="type" id="type-1"  >
+                                    <label class="form-check-label fs-small fw-bold" for="type-1">
+                                        2) سداد
+                                    </label>
+                                  </div>
+                              </form>
+                            </div>
+                            <div class="modal-footer" style="justify-content: flex-start;">
+                                <button type="button" debtorId="${debtorId}" id="addDebt"  class="btn btn-success btn-sm">حفظ</button>
+                                <button type="button" class="btn btn-secondary  btn-sm" data-bs-dismiss="modal">الغاء</button>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="my-4">
+                        <span>
+                            <strong>
+                              ${data.actualDebt < 0 ?"عليك دين:" :"عليه دين:"}
+                            </strong>
+                            <span class="py-1 px-3 rounded" style="display:inline-block;border:2px dashed red">
+                              <span id="debt-amount fs-small">
+                                  ${data.actualDebt === null ? 0 : data.actualDebt < 0 ? Math.abs(data.actualDebt) : data.actualDebt }
+                              </span>
+                              <span class="fs-small">
+                                  ر.ي
+                              </span>
+                            </span>
+                            
+                        </span>
+                    </div>
+                    <div class="my-5">
+                          <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                              <button class="nav-link text-dark active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">الديون</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                              <button class="nav-link text-dark" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">سداد</button>
+                            </li>
+                          </ul>
+                          <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                              <button id="print-0" onclick="printJS({printable: 'table-0',font_size:'20pt',type: 'html',targetStyle:['*'] , style: 'td,tr,th {border:1px solid black} .modal {display:none} #table-0 {direction:rtl;width:2000px;border:1px solid black} .print-delete {display:none} thead {background-color:black;color:white;text-align:start;}'})" class="btn mx-2 my-3 btn-warning fs-small btn-sm px-2">
+                                <svg style="fill:black" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zM432 248a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/></svg>
+                                طباعة
+                              </button>
+                              <table id="table-0" class="table table-hover fs-small">
+                                <thead class = "bg-dark text-white">
+                                  <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">المحتوى</th>
+                                    <th scope="col">المبلغ</th>
+                                    <th scope="col">التاريخ</th>
+                                    <th scope="col">الوقت</th>
+                                    <th scope="col" class="text-success print-delete">تعديل</th>
+                                    <th scope="col" class="text-danger print-delete">حذف</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="debt-type-0">
+                                </tbody>
+                              </table>
+                            </div>
+                            <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                              <button id="print-0" onclick="printJS({printable: 'table-1',font_size:'20pt',type: 'html',targetStyle:['*'] , style: 'td,tr,th {border:1px solid black} .modal {display:none} #table-1 {direction:rtl;width:2000px;border:1px solid black} .print-delete {display:none} thead {background-color:black;color:white;text-align:start;}'})" class="btn mx-2 my-3 btn-warning fs-small btn-sm px-2">
+                                <svg style="fill:black" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zM432 248a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/></svg>
+                                طباعة
+                              </button>
+                              <table id="table-1" class="table table-hover fs-small">
+                                <thead  class = "bg-dark text-white">
+                                  <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">المحتوى</th>
+                                    <th scope="col">المبلغ</th>
+                                    <th scope="col">التاريخ</th>
+                                    <th scope="col">الوقت</th>
+                                    <th scope="col" class="text-success print-delete">تعديل</th>
+                                    <th scope="col" class="text-danger print-delete">حذف</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="debt-type-1">
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                    </div>
+                </div>
+          `
+          debtCol.innerHTML = template;
+          let addDebtBtn = document.querySelector("#addDebt")
+          let bodyType0 = document.querySelector("#debt-type-0")
+          let bodyType1 = document.querySelector("#debt-type-1");   
+            data.debts.reverse().forEach((el,index)=>{
+              if(el.type == 0){
+                let template = `
+                <tr>
+                <th scope="row">${index + 1}</th>
+                <td>${el.debt}</td>
+                <td>${el.amount}</td>
+                <td>${el.created_at.slice(0,10)}</td>
+                <td>${el.created_at.slice(11,19)}</td>
+                <td class="print-delete">
+                  <a type="button"  data-bs-toggle="modal" data-bs-target="#modal-debt-edit-${el.id}">
+                    <svg id="svg-edit" xmlns="http://www.w3.org/2000/svg" height=".80em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z"/></svg>
+                  </a>
+                </td>
+                <td class="print-delete">
+                  <a  type="button"  data-bs-toggle="modal" data-bs-target="#modal-debt-delete-${el.id}" class="fw-bolder mx-1 delete-btn" debtor-id="${el.id}">
+                      <svg id="svg-delete" xmlns="http://www.w3.org/2000/svg" height=".80em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <div class="modal fade" id="modal-debt-delete-${el.id}" tabindex="-1" aria-labelledby="modal-debt-delete-${el.id}" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                    <svg class="svg-warring" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>                                     تحذير
+                                </h1>
+                                  <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <p>
+                                    هل تريد حذف 
+                                    <strong>
+                                      ${el.debt}
+                                    </strong>
+                                  </p>
+                                </div>
+                                <div class="modal-footer" style="justify-content: flex-start;">
+                                    <button type="button" debtorId="${el.id}" class="btn btn-danger btn-sm deleteDebt">حذف</button>
+                                    <button type="button" class="btn btn-secondary  btn-sm" data-bs-dismiss="modal">الغاء</button>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="modal-debt-edit-${el.id}" tabindex="-1" aria-labelledby="modal-debt-edit-${el.id}" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header bg-success">
+                              <h1 class="modal-title text-white fs-5" id="exampleModalLabel">
+                                <svg style="fill: rgb(255, 255, 255);" xmlns="http://www.w3.org/2000/svg"  height="1em" viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M312 24V34.5c6.4 1.2 12.6 2.7 18.2 4.2c12.8 3.4 20.4 16.6 17 29.4s-16.6 20.4-29.4 17c-10.9-2.9-21.1-4.9-30.2-5c-7.3-.1-14.7 1.7-19.4 4.4c-2.1 1.3-3.1 2.4-3.5 3c-.3 .5-.7 1.2-.7 2.8c0 .3 0 .5 0 .6c.2 .2 .9 1.2 3.3 2.6c5.8 3.5 14.4 6.2 27.4 10.1l.9 .3c11.1 3.3 25.9 7.8 37.9 15.3c13.7 8.6 26.1 22.9 26.4 44.9c.3 22.5-11.4 38.9-26.7 48.5c-6.7 4.1-13.9 7-21.3 8.8V232c0 13.3-10.7 24-24 24s-24-10.7-24-24V220.6c-9.5-2.3-18.2-5.3-25.6-7.8c-2.1-.7-4.1-1.4-6-2c-12.6-4.2-19.4-17.8-15.2-30.4s17.8-19.4 30.4-15.2c2.6 .9 5 1.7 7.3 2.5c13.6 4.6 23.4 7.9 33.9 8.3c8 .3 15.1-1.6 19.2-4.1c1.9-1.2 2.8-2.2 3.2-2.9c.4-.6 .9-1.8 .8-4.1l0-.2c0-1 0-2.1-4-4.6c-5.7-3.6-14.3-6.4-27.1-10.3l-1.9-.6c-10.8-3.2-25-7.5-36.4-14.4c-13.5-8.1-26.5-22-26.6-44.1c-.1-22.9 12.9-38.6 27.7-47.4c6.4-3.8 13.3-6.4 20.2-8.2V24c0-13.3 10.7-24 24-24s24 10.7 24 24zM568.2 336.3c13.1 17.8 9.3 42.8-8.5 55.9L433.1 485.5c-23.4 17.2-51.6 26.5-80.7 26.5H192 32c-17.7 0-32-14.3-32-32V416c0-17.7 14.3-32 32-32H68.8l44.9-36c22.7-18.2 50.9-28 80-28H272h16 64c17.7 0 32 14.3 32 32s-14.3 32-32 32H288 272c-8.8 0-16 7.2-16 16s7.2 16 16 16H392.6l119.7-88.2c17.8-13.1 42.8-9.3 55.9 8.5zM193.6 384l0 0-.9 0c.3 0 .6 0 .9 0z"/></svg>
+                                تعديل عملية
+                            </h1>
+                              <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <form action="">
+                                <div class="mb-3">
+                                  <label for="" class="form-label fs-small fw-bold">الملاحظة</label>
+                                  <textarea required class="form-control" name="debt" id="content-edit-${el.id}" rows="3">${el.debt}</textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for=""  class="form-label fs-small fw-bold">السعر</label>
+                                    <input type="number" value=${el.amount} id="price-edit-${el.id}"  class="form-control form-control-sm" required name="name" id="name" aria-describedby="helpId" placeholder="">
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input type-${el.id}" value="0" type="radio" name="type-${el.id}" id="type-${el.id}" checked>
+                                    <label class="form-check-label fs-small fw-bold" for="type-${el.id}">
+                                      1) دين
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input type-${el.id}" value="1" type="radio" name="type-${el.id}" id="type-${el.id}"} >
+                                    <label class="form-check-label fs-small fw-bold" for="type-${el.id}">
+                                        2) سداد
+                                    </label>
+                                  </div>
+                              </form>
+                            </div>
+                            <div class="modal-footer" style="justify-content: flex-start;">
+                                <button type="button" debtId="${el.id}" id="editDebt-${el.id}"  class="btn btn-success editDebt btn-sm">حفظ</button>
+                                <button type="button" class="btn btn-secondary  btn-sm" data-bs-dismiss="modal">الغاء</button>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+              </tr>
+              `
+              bodyType0.innerHTML +=template;
+              }else{
+                let template = `
+                <tr>
+                <th scope="row">${index + 1}</th>
+                <td>${el.debt}</td>
+                <td>${el.amount}</td>
+                <td>${el.created_at.slice(0,10)}</td>
+                <td>${el.created_at.slice(11,19)}</td>
+                <td class="print-delete">
+                  <a type="button"  data-bs-toggle="modal" data-bs-target="#modal-debt-edit-${el.id}">
+                    <svg id="svg-edit" xmlns="http://www.w3.org/2000/svg" height=".80em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z"/></svg>
+                  </a>
+                </td>
+                <td class="print-delete">
+                  <a  type="button"  data-bs-toggle="modal" data-bs-target="#modal-debt-delete-${el.id}" class="fw-bolder mx-1 delete-btn" debtor-id="${el.id}">
+                    <svg id="svg-delete" xmlns="http://www.w3.org/2000/svg" height=".80em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <div class="modal fade" id="modal-debt-delete-${el.id}" tabindex="-1" aria-labelledby="modal-debt-delete-${el.id}" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                    <svg class="svg-warring" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>                                     تحذير
+                                </h1>
+                                  <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <p>
+                                    هل تريد حذف 
+                                    <strong>
+                                      ${el.debt}
+                                    </strong>
+                                  </p>
+                                </div>
+                                <div class="modal-footer" style="justify-content: flex-start;">
+                                    <button type="button" debtorId="${el.id}" class="btn btn-danger btn-sm deleteDebt">حذف</button>
+                                    <button type="button" class="btn btn-secondary  btn-sm" data-bs-dismiss="modal">الغاء</button>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="modal-debt-edit-${el.id}" tabindex="-1" aria-labelledby="modal-debt-edit-${el.id}" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header bg-success">
+                              <h1 class="modal-title text-white fs-5" id="exampleModalLabel">
+                                <svg style="fill: rgb(255, 255, 255);" xmlns="http://www.w3.org/2000/svg"  height="1em" viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M312 24V34.5c6.4 1.2 12.6 2.7 18.2 4.2c12.8 3.4 20.4 16.6 17 29.4s-16.6 20.4-29.4 17c-10.9-2.9-21.1-4.9-30.2-5c-7.3-.1-14.7 1.7-19.4 4.4c-2.1 1.3-3.1 2.4-3.5 3c-.3 .5-.7 1.2-.7 2.8c0 .3 0 .5 0 .6c.2 .2 .9 1.2 3.3 2.6c5.8 3.5 14.4 6.2 27.4 10.1l.9 .3c11.1 3.3 25.9 7.8 37.9 15.3c13.7 8.6 26.1 22.9 26.4 44.9c.3 22.5-11.4 38.9-26.7 48.5c-6.7 4.1-13.9 7-21.3 8.8V232c0 13.3-10.7 24-24 24s-24-10.7-24-24V220.6c-9.5-2.3-18.2-5.3-25.6-7.8c-2.1-.7-4.1-1.4-6-2c-12.6-4.2-19.4-17.8-15.2-30.4s17.8-19.4 30.4-15.2c2.6 .9 5 1.7 7.3 2.5c13.6 4.6 23.4 7.9 33.9 8.3c8 .3 15.1-1.6 19.2-4.1c1.9-1.2 2.8-2.2 3.2-2.9c.4-.6 .9-1.8 .8-4.1l0-.2c0-1 0-2.1-4-4.6c-5.7-3.6-14.3-6.4-27.1-10.3l-1.9-.6c-10.8-3.2-25-7.5-36.4-14.4c-13.5-8.1-26.5-22-26.6-44.1c-.1-22.9 12.9-38.6 27.7-47.4c6.4-3.8 13.3-6.4 20.2-8.2V24c0-13.3 10.7-24 24-24s24 10.7 24 24zM568.2 336.3c13.1 17.8 9.3 42.8-8.5 55.9L433.1 485.5c-23.4 17.2-51.6 26.5-80.7 26.5H192 32c-17.7 0-32-14.3-32-32V416c0-17.7 14.3-32 32-32H68.8l44.9-36c22.7-18.2 50.9-28 80-28H272h16 64c17.7 0 32 14.3 32 32s-14.3 32-32 32H288 272c-8.8 0-16 7.2-16 16s7.2 16 16 16H392.6l119.7-88.2c17.8-13.1 42.8-9.3 55.9 8.5zM193.6 384l0 0-.9 0c.3 0 .6 0 .9 0z"/></svg>
+                                تعديل عملية
+                            </h1>
+                              <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <form action="">
+                                <div class="mb-3">
+                                  <label for="" class="form-label fs-small fw-bold">الملاحظة</label>
+                                  <textarea required class="form-control" name="debt" id="content-edit-${el.id}" rows="3">${el.debt}</textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for=""  class="form-label fs-small fw-bold">السعر</label>
+                                    <input type="number" value=${el.amount} id="price-edit-${el.id}"  class="form-control form-control-sm" required name="name" id="name" aria-describedby="helpId" placeholder="">
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input type-${el.id}" value="0" type="radio" name="type-${el.id}" id="type-${el.id}" >
+                                    <label class="form-check-label fs-small fw-bold" for="type-${el.id}">
+                                      1) دين
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input type-${el.id}" value="1" type="radio" name="type-${el.id}" id="type-${el.id}"  checked>
+                                    <label class="form-check-label fs-small fw-bold" for="type-${el.id}">
+                                        2) سداد
+                                    </label>
+                                  </div>
+                              </form>
+                            </div>
+                            <div class="modal-footer" style="justify-content: flex-start;">
+                                <button type="button" debtId="${el.id}" id="editDebt-${el.id}"  class="btn btn-success btn-sm editDebt">حفظ</button>
+                                <button type="button" class="btn btn-secondary  btn-sm" data-bs-dismiss="modal">الغاء</button>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                        
+              </tr>
+              `
+              bodyType1.innerHTML +=template;
+              }
+            })
+          
+            addDebtBtn.addEventListener("click",()=>{
+              let debtorEmail = localStorage.getItem("debtorEmail");
+              let debtorId = addDebtBtn.getAttribute("debtorId")
+              let contentInput = document.querySelector("#content").value
+              let priceInput = document.querySelector("#price").value;
+              let typeInput = document.querySelector("input[name='type']:checked").value;
+              fetch(`http://localhost:3000/api/v1/debt`,{
+                method:"POST",
+                headers:{
+                  "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                  debtorId,
+                  debt:contentInput,
+                  amount:priceInput,
+                  type:typeInput,
+                  debtorEmail
+                })
+              }).then(res=>{
+                if (res.status ===201) {
+                  location.reload();
+                }
+              })
+              
+            })
+            let deleteDebtBtns = document.querySelectorAll(".deleteDebt")
+            deleteDebtBtns.forEach((btn)=>{
+              btn.addEventListener('click',function(){
+                let id = this.getAttribute("debtorId");
+                fetch(`http://localhost:3000/api/v1/debt/${id}`,{
+                  method:"DELETE"
+                }).then((res)=>{
+                  if(res.status = 204){
+                    location.reload();
+                  }
+                })
+              })
+            })
+
+            let editDebtBtns = document.querySelectorAll(".editDebt");
+            editDebtBtns.forEach(btn=>{
+              btn.addEventListener('click',(event)=>{
+                const id = btn.getAttribute("debtId");
+                const content = document.getElementById(`content-edit-${id}`).value;
+                const amount = document.getElementById(`price-edit-${id}`).value;
+                const type = document.querySelector(`.type-${id}:checked`).value;
+                fetch(`http://localhost:3000/api/v1/debt`,{
+                  method:"PUT",
+                  headers:{
+                    'Content-Type':'application/json'
+                  }
+                  ,body: JSON.stringify({
+                    id,
+                    debt:content,
+                    amount,
+                    type
+                  })
+                }).then((res)=>{
+                  if(res.status == 200){
+                    location.reload()
+                  }
+                })
+              })
+            })
+        })
+    }
+      
+    debtorCards.forEach(card =>{
+      card.addEventListener('click',(e)=>{
+        debtorCards.forEach(card=>{
+          card.classList.remove('active-debtor-card');
+        })
+        card.classList.add("active-debtor-card");
+        
+        
+        const debtorId = card.getAttribute("debtorId");
+        const debtorEmail = card.getAttribute("email");
+        localStorage.setItem("debtorId",debtorId);
+        localStorage.setItem("debtorEmail",debtorEmail);
+        handelClickDebtorCards(debtorId);
+      })
+    })
+
+
+    window.onload = ()=>{
+      const debtorId = localStorage.getItem("debtorId");
+      document.getElementById(`debtor-${debtorId}`).classList.add("active-debtor-card")
+      handelClickDebtorCards(debtorId);
+    }
+   
+</script>
+<%- include('./parts/footer.ejs') %>

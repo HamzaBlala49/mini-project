@@ -1,0 +1,31 @@
+<%- include('./parts/head.ejs') %>
+<body class="center-elements">
+
+    <form method="post" action="/signin"  class="bg-white shadow-sm p-3 fw-bold rounded" style="width: 400px;" >
+        <h6 class="text-center fw-bold">إنشاء حساب</h6>
+        <div class="mb-3">
+            <label for="" class="form-label fs-small">الأسم</label>
+            <input type="text" required class="form-control form-control-sm" name="fullName" >
+          </div>
+          <div class="mb-3">
+            <label for="" class="form-label fs-small">أسم المستخدم</label>
+            <input type="text" required class="form-control form-control-sm" name="username" >
+          </div>
+        <div class="mb-3">
+          <label for="" class="form-label fs-small">الأيميل</label>
+          <input type="text" required class="form-control form-control-sm" name="email" >
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label fs-small">كلمة السر</label>
+            <input type="password" required class="form-control form-control-sm"  name="password" >
+          </div>
+          <div class="d-grid gap-2">
+            <button type="submit"  name="" id="" class="btn btn-dark btn-sm fs-small">إنشاء حساب</button>
+          </div>
+          <p class="p-0 m-0 text-center mt-2" style="font-size: 12px;">
+            <span class="text-secondary">لديك حساب؟</span>
+            <a href="/login">تسجيل الدخول</a>
+          </p>
+    </form>
+</body>
+</html>

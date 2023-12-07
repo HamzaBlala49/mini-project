@@ -1,0 +1,74 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: cairo;
+
+}
+@font-face {
+    font-family: cairo ;
+    src: url("../fonts/Cairo-VariableFont_slnt\,wght.ttf");
+}
+body{
+    background-color: rgb(228, 228, 228) ;
+    background-image: url("../img/bg-1.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+.center-elements{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.fs-small{
+    font-size: 15px;
+}
+.debtors-card{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 5px;
+}
+.debtors-card:hover{
+    background-color: rgb(240, 240, 240);
+}
+.active-debtor-card{
+    background-color: rgb(240, 240, 240);
+}
+.svg-debtor{
+    fill:rgb(0, 0, 0)!important;
+}
+#svg-edit{
+    fill:rgb(1, 75, 1) !important;
+}
+#svg-delete{
+    fill:rgb(172, 11, 0) !important;
+}
+.svg-warring{
+    fill: rgb(235, 235, 0);
+}
+#add-debtor{
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    border-radius: 50%;
+    color: white;
+    font-size: 50px;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    z-index: 100;
+}
+@media print {  
+    .print-delete{
+        display: none;
+    } 
+}
